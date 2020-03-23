@@ -1,0 +1,11 @@
+language: java
+
+env:
+- DATE=`date +"%Y-%m-%d-%H%M"`
+
+before_install:
+- wget https://repo1.maven.org/maven2/com/veracode/vosp/api/wrappers/vosp-api-wrappers-java/19.2.5.6/vosp-api-wrappers-java-19.2.5.6.jar
+
+script:
+- mvn clean package
+- java -jar vosp-api-wrappers-java-19.2.5.6.jar -vid $VERACODE_API_ID -vkey $VERACODE_API_KEY -action uploadandscan -appname "Ian CircleCI Test App" -createprofile false -filepath /home/travis/build/ian-c-leonard/webapp/target/WebApp.war -version "$TRAVIS_JOB_ID - $TRAVIS_JOB_NUMBER $DATE"
